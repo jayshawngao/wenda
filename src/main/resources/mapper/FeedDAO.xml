@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jayshawn.dao.FeedDAO">
+    <sql id="table">feed</sql>
+    <sql id="insertFields">created_date,user_id, data, type
+    </sql>
+    <sql id="selectFields">id, <include refid="insertFields"></include>
+    </sql>
+    <select id="selectUserFeeds" resultType="com.jayshawn.model.Feed">
+        SELECT
+        <include refid="selectFields"/>
+        FROM
+        <include refid="table"/>
+
+        WHERE id &lt; #{maxId}
+
+        <if test="userIds.size() != 0">
+            AND user_id in
+            <foreach item="item" collection="userIds"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <!-- 按id排序就可以了 -->
+        ORDER BY id DESC 
+        LIMIT #{count}
+    </select>
+    
+    <insert id="addFeed" useGeneratedKeys="true" keyProperty="id">
+    	insert into 
+    	<include refid="table"></include>
+    	(<include refid="insertFields"></include>)
+    	values (#{createdDate}, #{userId},#{data},#{type})
+    </insert>
+</mapper>

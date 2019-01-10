@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jayshawn.dao.QuestionDAO">
+    <sql id="table">question</sql>
+    <sql id="insertFields">title, content, user_id, created_date, comment_count
+    </sql>
+    <sql id="selectFields">id, <include refid="insertFields"></include>
+    </sql>
+    <select id="selectLatestQuestions" resultType="com.jayshawn.model.Question">
+        SELECT
+        <include refid="selectFields"/>
+        FROM
+        <include refid="table"/>
+
+        <if test="userId != 0">
+            WHERE user_id = #{userId}
+        </if>
+        ORDER BY created_date DESC
+        LIMIT #{offset},#{limit}
+    </select>
+    
+    <insert id="addQuestion" useGeneratedKeys="true" keyProperty="id">
+    	insert into
+    	<include refid="table"></include>
+    	(<include refid="insertFields"></include>)
+    	values (#{title},#{content},#{userId}, #{createdDate},#{commentCount})
+    </insert>
+</mapper>
