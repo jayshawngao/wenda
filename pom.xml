@@ -185,8 +185,35 @@
                     </configuration>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagBase>https://github.com/jayshawngao/KSG/tags/</tagBase>
+                </configuration>
+            </plugin>
         </plugins>
 		<finalName>wenda</finalName>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Releases Repository</name>
+			<url>http://localhost:8081/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshots Repository</name>
+			<url>http://localhost:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<scm>
+		<connection>scm:git:https://github.com/jayshawngao/wenda.git</connection>
+		<developerConnection>scm:git:https://jayshawngao:gao963680393@github.com/jayshawngao/wenda.git</developerConnection>
+		<url>https://github.com/jayshawngao/wenda</url>
+	</scm>
 
 </project>
